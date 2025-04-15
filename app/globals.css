@@ -1,0 +1,351 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 263.4 70% 50.4%;
+  --primary-foreground: 210 20% 98%;
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --accent: 240 3.7% 15.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --ring: 240 4.9% 83.9%;
+  --radius: 0.75rem;
+}
+
+.light {
+  --background: 0 0% 100%;
+  --foreground: 240 10% 3.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 3.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 3.9%;
+  --primary: 263.4 70% 50.4%;
+  --primary-foreground: 210 20% 98%;
+  --secondary: 240 4.8% 95.9%;
+  --secondary-foreground: 240 5.9% 10%;
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+  --accent: 240 4.8% 95.9%;
+  --accent-foreground: 240 5.9% 10%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 5.9% 90%;
+  --input: 240 5.9% 90%;
+  --ring: 240 5.9% 10%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    text-rendering: optimizeSpeed;
+  }
+  
+  /* Add hardware acceleration for all animations */
+  .motion-safe * {
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    perspective: 1000;
+  }
+}
+
+/* Animation Keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(15px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -500px 0; }
+  100% { background-position: 500px 0; }
+}
+
+@keyframes progressiveReveal {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 5px rgba(255, 0, 0, 0.2); }
+  50% { box-shadow: 0 0 15px rgba(255, 0, 0, 0.3); }
+  100% { box-shadow: 0 0 5px rgba(255, 0, 0, 0.2); }
+}
+
+/* Animation Utilities */
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+  will-change: opacity;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out forwards;
+  will-change: transform, opacity;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.2s ease-out forwards;
+  will-change: transform, opacity;
+}
+
+.animate-progressive-reveal {
+  animation: progressiveReveal 0.4s ease-out forwards;
+  will-change: clip-path;
+}
+
+.animate-float {
+  animation: float 2s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-glow {
+  animation: glow 1.5s ease-in-out infinite;
+  will-change: box-shadow;
+}
+
+/* Stagger Children Animations */
+.stagger-animate > * {
+  opacity: 0;
+  animation: slideUp 0.3s ease-out forwards;
+  will-change: transform, opacity;
+}
+
+.stagger-animate > *:nth-child(1) { animation-delay: 0.05s; }
+.stagger-animate > *:nth-child(2) { animation-delay: 0.1s; }
+.stagger-animate > *:nth-child(3) { animation-delay: 0.15s; }
+.stagger-animate > *:nth-child(4) { animation-delay: 0.2s; }
+.stagger-animate > *:nth-child(5) { animation-delay: 0.25s; }
+
+/* Glassmorphism */
+.glass {
+  @apply backdrop-blur-md bg-white/10 border border-white/20;
+}
+
+.glass-dark {
+  @apply backdrop-blur-md bg-black/30 border border-white/10;
+}
+
+/* Loading States */
+.skeleton {
+  @apply bg-muted/20;
+  background: linear-gradient(
+    90deg,
+    hsl(var(--muted)) 25%,
+    hsl(var(--muted-foreground)) 50%,
+    hsl(var(--muted)) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1s infinite;
+  will-change: background-position;
+}
+
+/* Interactive Elements */
+.hover-scale {
+  @apply transition-transform duration-200 hover:scale-[1.03];
+  will-change: transform;
+}
+
+.hover-glow {
+  @apply transition-all duration-200;
+}
+
+.hover-glow:hover {
+  @apply shadow-lg shadow-primary/20;
+}
+
+/* Card Morphism */
+.morphism {
+  @apply rounded-xl shadow-lg bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-lg border border-white/10 transition-all duration-200;
+}
+
+.morphism:hover {
+  @apply shadow-xl shadow-primary/10 border-primary/20 scale-[1.01];
+  will-change: transform, box-shadow;
+}
+
+/* Text Effects */
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-500;
+}
+
+.text-glow {
+  text-shadow: 0 0 10px hsl(var(--primary) / 0.5);
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.media-card {
+  @apply relative overflow-hidden rounded-lg transition-all duration-200 hover:scale-[1.01];
+  will-change: transform;
+}
+
+.media-card-overlay {
+  @apply absolute inset-0 bg-gradient-to-t from-background/90 to-transparent opacity-0 transition-opacity hover:opacity-100;
+}
+
+.animate-slide {
+  @apply transition-transform duration-300;
+}
+
+.genre-pill {
+  @apply rounded-full px-3 py-1 text-xs font-medium transition-colors;
+}
+
+.genre-movies { @apply bg-blue-500/20 text-blue-400; }
+.genre-tv { @apply bg-purple-500/20 text-purple-400; }
+.genre-anime { @apply bg-pink-500/20 text-pink-400; }
+.genre-books { @apply bg-green-500/20 text-green-400; }
+.genre-games { @apply bg-orange-500/20 text-orange-400; }
+.genre-music { @apply bg-red-500/20 text-red-400; }
+
+@layer utilities {
+  /* Add custom animation CSS */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .animate-pulse-slow {
+    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+  
+  .hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Genre pill styling */
+  .genre-pill {
+    @apply px-2 py-1 text-xs rounded-full;
+  }
+  
+  .genre-movie {
+    @apply bg-blue-500/20 text-blue-500;
+  }
+  
+  .genre-tv {
+    @apply bg-purple-500/20 text-purple-500;
+  }
+  
+  .genre-anime {
+    @apply bg-red-500/20 text-red-500;
+  }
+  
+  .genre-game {
+    @apply bg-green-500/20 text-green-500;
+  }
+  
+  /* Custom animation keyframes */
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+  
+  @keyframes glow {
+    from {
+      box-shadow: 0 0 5px rgba(var(--primary), 0.2), 0 0 10px rgba(var(--primary), 0.1);
+    }
+    to {
+      box-shadow: 0 0 10px rgba(var(--primary), 0.3), 0 0 20px rgba(var(--primary), 0.2);
+    }
+  }
+}
+
+/* Accessibility Settings */
+.reduce-motion * {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+.high-contrast {
+  --primary: 0 0% 0%;
+  --primary-foreground: 0 0% 100%;
+  --background: 0 0% 100%;
+  --foreground: 0 0% 0%;
+  --card: 0 0% 95%;
+  --card-foreground: 0 0% 0%;
+  --popover: 0 0% 95%;
+  --popover-foreground: 0 0% 0%;
+  --muted: 0 0% 90%;
+  --muted-foreground: 0 0% 0%;
+  --border: 0 0% 0%;
+}
+
+.high-contrast.dark {
+  --primary: 0 0% 100%;
+  --primary-foreground: 0 0% 0%;
+  --background: 0 0% 0%;
+  --foreground: 0 0% 100%;
+  --card: 0 0% 5%;
+  --card-foreground: 0 0% 100%;
+  --popover: 0 0% 5%;
+  --popover-foreground: 0 0% 100%;
+  --muted: 0 0% 10%;
+  --muted-foreground: 0 0% 100%;
+  --border: 0 0% 100%;
+}
